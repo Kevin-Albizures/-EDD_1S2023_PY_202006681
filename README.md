@@ -1,2 +1,2 @@
-# -EDD_1S2023_PY_202006681
-Proyecto EDD
+# Proyecto EDD
+- Fase 1: 28/02/2023
