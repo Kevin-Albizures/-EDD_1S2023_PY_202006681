@@ -1,106 +1,93 @@
-package Lista
+package Estructura
 
 import (
 	"fmt"
+	"strconv"
 )
 
 // Declaración de la estructura
-type SimpleList struct {
+type List struct {
 	head *Estudiante
+	tail *Estudiante
 }
 
 // Se agrega el puntero hacia el struct para hacerlo parte de el
-func (list *SimpleList) Insert(nnombre string , Apellido string , Contraseña string) {
-	//Declarar nuevo nodo
-	newEstudiante := &Estudiante{nnombre: nnombre,
-		 			Apellido: Apellido,
-					Contraseña:Contraseña,
-					next: nil}
-	//Verificar si la lista está vacía
+
+func (list *List) Insert(nombre string , Apellido string,carnet int, Contraseña string) {
+	nnombre:=nombre+" "+Apellido
+	newEstudiante := &Estudiante{nnombre: nnombre,carnet: carnet,Contraseña:Contraseña,next: nil,back: nil}
+	
 	if list.head == nil {
 		list.head = newEstudiante
+		list.tail = newEstudiante
 	} else {
-		//Recorrer hasta encontrar el último nodo
+		
 		temp := list.head
 		for temp.next != nil {
 			temp = temp.next
 		}
-		//Agregar el nuevo nodo hasta el final
 		temp.next = newEstudiante
+		newEstudiante.back=temp
+		
 	}
+	fmt.Print("Estudiante "+nnombre+"ingresado...\n")
 }
+
+
 
 // Método para imprimir la lista
-func (list *SimpleList) Print() {
+func (list *List) Print() {
 	temp := list.head
-	for temp.next != nil {
-		fmt.Printf("  Nombre: "+temp.nnombre+
-					"\n  Apellido: "+temp.Apellido+
-					"\n  Contraseña"+temp.Contraseña)
-		temp = temp.next
+	if temp!=nil{
+		fmt.Print("\n-------------- LISTADO DE ALUMNOS -------------\n")
+		for temp.next != nil {
+			fmt.Printf("- Nombre: "+temp.nnombre+", Carnet: "+strconv.Itoa(temp.carnet))
+			temp = temp.next
+			fmt.Print("\n-----------------------------------------------\n")
+		}
+			fmt.Printf("- Nombre: "+temp.nnombre+", Carnet: "+strconv.Itoa(temp.carnet))
+			fmt.Print("\n-----------------------------------------------\n")
 		fmt.Print("\n")
+	}else{
+		fmt.Print(" *********************************************\n")
+		fmt.Print("*          No hay alumnos asignados          *\n")	
+		fmt.Print(" *********************************************\n")
 	}
-	fmt.Printf(	"  Nombre: "+temp.nnombre+
-				"\n  Apellido: "+temp.Apellido+
-				"\n  Contraseña"+temp.Contraseña)
-	fmt.Print("\n")
+	
 }
 
-// Método para buscar un valor en la lista
-func (list *SimpleList) Find(nnombre string) (result bool, index int) {
+// Método para buscar
+func (list *List) Find(carnet int) (result bool) {
 	temp := list.head
-	index = 0
 	result = false
-	for temp != nil {
-		if temp.nnombre == nnombre {
-			result = true
-		}
-		index++
-		temp = temp.next
-	}
-
-	if !result {
-		index = -1
-	}
-
-	return result, index
-}
-
-// Método para eliminar valor de la lista
-func (list *SimpleList) Delete(nnombre string) (result bool) {
-	result = false
-	// Si es el primero de la lista
-	if list.head.nnombre == nnombre {
-		result = true
-		if list.head.next == nil {
-			list.head = nil
-		} else {
-			list.head = list.head.next
-		}
-	} else {
-		temp := list.head
-		// Dos casos para eliminar [Se eliminará el 2]
-		// 1 -> |2| -> 3 		----- Que el siguiente nodo no sea nulo
-		// 1 -> |2| -> Null		----- Que el siguiente nodo sea nulo
+	if list.head!=nil{
 		for temp != nil {
-			//Encontrar el nodo anterior al que se elimina
-			if temp.next != nil {
-				if temp.next.nnombre == nnombre {
-					break
-				}
+			if temp.carnet == carnet {
+				result = true
 			}
 			temp = temp.next
 		}
-		if temp == nil {
-			fmt.Println("No se encontró el nombre D:")
-			return false
-		} else {
-			//Se asigna el apuntador al siguiente del que se elimina
-			// 1 -> |2| -> 3   		==>  1 -> 3
-			// 1 -> |2| -> Null   	==>  1 -> Null (toma el valor del apuntando a nulo)
-			temp.next = temp.next.next
-			result = true
+	}
+	return result
+}
+
+//Comprobar inicio de sesión
+func (list *List) Comprobar(carnet int, contraseña string) (result bool) {
+	temp := list.head
+	result = false
+	if list.head!=nil{
+		for temp != nil {
+			if temp.carnet == carnet && temp.Contraseña==contraseña {
+				result = true
+			}
+			temp = temp.next
 		}
 	}
 	return result
+}
+
+
+
+func (list *List) Verifica() (result bool){
+    return list.head!=nil
 }
