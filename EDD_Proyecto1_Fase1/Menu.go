@@ -9,6 +9,7 @@ import (
 	"strconv"
     "encoding/csv"
 	Estructura "gitb.com/EDD_ProyectoF1/Estructuras"
+	dot "gitb.com/EDD_ProyectoF1/Dot"
 )
 
 
@@ -117,13 +118,13 @@ func main() {
 										NoPendientes--
 										i--
 										if ListaEnlazada.Find(carne){
-											fmt.Print("Usuario ya existente, solicitud denegada. ")
+											fmt.Print("Usuario ya existente, solicitud denegada. \n")
 											now:=time.Now()
-											PilaAdmin.EnPila("Usuario "+Nombre+" ya existente: ",now.Format("2006-01-02 15:04:05"))
+											PilaAdmin.EnPila("Usuario\n"+Nombre+"\nya existente: ",now.Format("2006-01-02 15:04:05"))
 										} else{
 											ListaEnlazada.Insert(Nombre,"", carne , contra)
 											now:=time.Now()
-											PilaAdmin.EnPila("Se aceptó a "+Nombre+": ",now.Format("2006-01-02 15:04:05"))
+											PilaAdmin.EnPila("Se aceptó a\n"+Nombre+": ",now.Format("2006-01-02 15:04:05"))
 										}
 										
 									} 
@@ -131,7 +132,7 @@ func main() {
 										NoPendientes--
 										i--
 										now:=time.Now()
-										PilaAdmin.EnPila("Se rechazó a "+Nombre+": ",now.Format("2006-01-02 15:04:05"))
+										PilaAdmin.EnPila("Se rechazó a \n"+Nombre+": ",now.Format("2006-01-02 15:04:05"))
 									} else{
 										i=0
 									}
@@ -208,7 +209,59 @@ func main() {
 							
 
 						case 5:
-							fmt.Print("Generar bitacora.")
+							var OpBit int
+							fmt.Print("\n******************** BITACORAS ********************\n")
+							fmt.Print(  "**   1. Lista enlazada doble                     **\n")
+							fmt.Print(  "**   2. Reporte cola de solicitudes              **\n")
+							fmt.Print(  "**   3. Reporte pila de administrador            **\n")
+							fmt.Print(  "**   4. Reporte JSON                             **\n")
+							fmt.Print(  " *************************************************\n")
+							fmt.Print("                      - Ingrese la opción: ")
+							scanner.Scan()
+							fmt.Sscan(scanner.Text(),&OpBit)
+							switch OpBit {
+							case 1:
+								path, err := os.Getwd()
+								if err != nil {
+									log.Println(err)
+								}
+
+								// Escribir el archivo .dot
+								dot.WriteDotFile(ListaEnlazada.GraphCode(), "Lista_enlazada.dot", path)
+								// Ejecutar COmando en consola
+								dot.GeneratePNG("Lista_enlazada.dot", path)
+								scanner.Scan()
+
+							case 2:
+								path, err := os.Getwd()
+								if err != nil {
+									log.Println(err)
+								}
+
+								// Escribir el archivo .dot
+								dot.WriteDotFile(Cola.GraphCode(), "Cola_Solicitudes.dot", path)
+								// Ejecutar COmando en consola
+								dot.GeneratePNG("Cola_Solicitudes.dot", path)
+								scanner.Scan()
+							
+							case 3:
+								path, err := os.Getwd()
+								if err != nil {
+									log.Println(err)
+								}
+
+								// Escribir el archivo .dot
+								dot.WriteDotFile(PilaAdmin.GraphCode(), "Pila_Admin.dot", path)
+								// Ejecutar COmando en consola
+								dot.GeneratePNG("Pila_Admin.dot", path)
+								scanner.Scan()
+							
+							case 4:
+								ListaEnlazada.JSONCode()
+							
+							default:
+								fmt.Print("\n ****** Elija una opción válida. ******\n")	
+							}
 
 						case 6:
 							fmt.Print("\n\n**************** Sesión cerrada... ****************\n")

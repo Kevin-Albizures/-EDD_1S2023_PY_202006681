@@ -2,6 +2,7 @@ package Estructura
 
 import (
 	"fmt"
+	"strconv"
 )
 
 
@@ -16,9 +17,9 @@ func (Pila *Pila) EnPila(texto string , fechaa string) {
         Pila.head = newNodoB1
 		Pila.tail = newNodoB1
     } else {
-
-        Pila.head.next = newNodoB1
+		
         newNodoB1.back =Pila.head
+        Pila.head.next = newNodoB1
 		Pila.head = newNodoB1
     }
 	fmt.Print("Inserción a nodo hecha.")
@@ -49,4 +50,32 @@ func (Pila *Pila) DePila(carnet int) interface{} {
     return value
 }
 
+// GENERAR CÓDIGO GRAPHVIZ
+func (Pila *Pila) GraphCode() string {
+	temp := Pila.head
+	if temp!=nil{
+		nodes := ""
+		contenido := ""
+		counter := 0    
+		for temp.back != nil {
+			nodes += "N" + strconv.Itoa(counter) + "[label=\"" + temp.texto+ "\n " + temp.fechaa + "\"];\n"
+			contenido += "N" + strconv.Itoa(counter) + "->"
+			temp = temp.back
+			counter++
+		}
+		nodes += "N" + strconv.Itoa(counter) + "[label=\""+ temp.texto+ "\n " + temp.fechaa +"\"];\n"
+		contenido += "N" + strconv.Itoa(counter) + "\n"
+
+		return "digraph G {\n" +
+			"node[shape=septagon, style=filled, color=darkgoldenrod];\n" +
+			"rankdir=LR;\n" +
+			nodes +
+			contenido + 
+			"\n}"
+	}
+	fmt.Print("********** Pila vacía **********")
+	return "digraph G {\n" +
+	"node[shape=septagon, style=filled, color=darkgoldenrod];\n" +
+	"rankdir=L;\n NZ[label=\"** Pila Vacía **\"];\n}"
+}
 

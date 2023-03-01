@@ -109,4 +109,31 @@ func (Cola *Cola) DeCola(NoPendientes int) (string,int,string,int) {
     return "",0,"",0
 }
 
+// GENERAR CÓDIGO GRAPHVIZ
+func (Cola *Cola) GraphCode() string {
+	temp := Cola.head
+    if temp!=nil{
+        nodes := ""
+        contenido := ""
+        counter := 0    
+        for temp.next != nil {
+            nodes += "N" + strconv.Itoa(counter) + "[label=\"Carnet:" + strconv.Itoa(temp.carnet) + "\nNombre: " + temp.nnombre + "\"];\n"
+            contenido += "N" + strconv.Itoa(counter) + "->"
+            temp = temp.next
+            counter++
+        }
+        nodes += "N" + strconv.Itoa(counter) + "[label=\"Carnet:" + strconv.Itoa(temp.carnet) + "\nNombre: " + temp.nnombre + "\"];\n"
+        contenido += "N" + strconv.Itoa(counter) + "\n"
 
+        return "digraph G {\n" +
+            "node[shape=septagon, style=filled, color=darkgoldenrod];\n" +
+            "rankdir=LR;\n" +
+            nodes +
+            contenido + 
+            "\n}"
+    }
+    fmt.Print("********** Cola vacía **********")
+    return "digraph G {\n" +
+	"node[shape=septagon, style=filled, color=darkgoldenrod];\n" +
+	"rankdir=LR;\n NZ[label=\"** Cola Vacía **\"];\n}"
+}
