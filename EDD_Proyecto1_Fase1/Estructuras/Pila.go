@@ -22,7 +22,7 @@ func (Pila *Pila) EnPila(texto string , fechaa string) {
         Pila.head.next = newNodoB1
 		Pila.head = newNodoB1
     }
-	fmt.Print("Inserción a nodo hecha.")
+	//fmt.Print("Inserción a nodo hecha.")
 }
 
 // Método para imprimir la lista

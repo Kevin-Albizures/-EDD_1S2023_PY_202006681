@@ -316,9 +316,9 @@ func main() {
 		
 					if ListaEnlazada.Comprobar(usuario2,contraseña) {
 						intentos2=3
-						now:=time.Now()
-						fmt.Print(" - "+strconv.Itoa(usuario2)+" accediste en la fecha: ")
-						fmt.Println(now.Format("2006-01-02 15:04:05"))
+						//now:=time.Now()
+						//fmt.Print(" - "+strconv.Itoa(usuario2)+" accediste en la fecha: ")
+						//fmt.Println(now.Format("2006-01-02 15:04:05"))
 						scanner.Scan()
 		
 					} else {

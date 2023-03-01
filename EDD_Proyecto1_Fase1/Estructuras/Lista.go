@@ -22,6 +22,7 @@ func (list *List) Insert(nombre string , Apellido string,carnet int, Contraseña
 	
 	if list.head == nil {
 		list.head = newEstudiante
+		list.tail=newEstudiante
 	} else {
 		
 		temp := list.head
@@ -84,6 +85,7 @@ func (list *List) Comprobar(carnet int, contraseña string) (result bool) {
 				result = true
 				now:=time.Now()
 				temp.Bitacora.EnPila("Se inicio sensión ",now.Format("2006-01-02 15:04:05"))
+				temp.Bitacora.Print()
 			}
 			temp = temp.next
 		}
