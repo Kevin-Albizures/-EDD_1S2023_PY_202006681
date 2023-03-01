@@ -86,6 +86,8 @@ func main() {
 				if usuario=="Admin" && contraseña=="Admin" {
 					usuario=""
 					contraseña=""
+					fmt.Print("------------------ Bienvenido administrador ------------------\n")
+					scanner.Scan()
 					intentos=3
 					salidaAdmin:=1
 					for salidaAdmin==1 {
@@ -315,7 +317,9 @@ func main() {
 					fmt.Print("-----------------------------------------------\n")
 		
 					if ListaEnlazada.Comprobar(usuario2,contraseña) {
+						
 						intentos2=3
+						fmt.Print("------------------ Bienvenido alumno ------------------\n")
 						//now:=time.Now()
 						//fmt.Print(" - "+strconv.Itoa(usuario2)+" accediste en la fecha: ")
 						//fmt.Println(now.Format("2006-01-02 15:04:05"))
